@@ -1,3 +1,8 @@
 export function Refund() {
-    return <h1>Refund</h1>
+    return (
+        <div>
+            <h1> Refund</h1>
+        </div>
+
+    )
 }
