@@ -36,6 +36,9 @@ export function SignIn() {
             <Button type="submit" isLoading={isLoading}>
                 Entrar
             </Button>
+
+            <a href="/signup" className="text-sm font-semibold text-gray-100 text-center mt-10 mb-4 hover:text-green-800 transition ease-in">
+                Criar conta</a>
         </form>
     )
 }
