@@ -4,6 +4,7 @@ import { CATEGORIES, CATEGORIES_KEY } from "../utils/categories";
 
 import { Input } from "../components/Input";
 import { Select } from "../components/Select";
+import { Upload } from "../components/Upload";
 
 
 export function Refund() {
@@ -46,11 +47,9 @@ export function Refund() {
                 />
             </div>
 
-            <Input
-                required
+            <Upload
                 legend="Comprovante"
             />
-
 
         </form >
 
