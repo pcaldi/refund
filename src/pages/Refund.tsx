@@ -17,25 +17,39 @@ export function Refund() {
                 <h1 className="font-bold text-xl text-gray-100">Solicitação de reembolso</h1>
                 <p className="text-sm text-gray-200 mt-2 mb-4">Dados da despesa para solicitar reembolso.</p>
             </header>
+
             <Input
                 required
                 legend="Nome da solicitação"
             />
-            <Select
-                required
-                legend="Categoria"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-            >
-                {
-                    CATEGORIES_KEY.map(category => (
-                        <option key={category} value={category}>
-                            {CATEGORIES[category].name}
-                        </option>
-                    ))
-                }
-            </Select>
 
+            <div className="flex gap-4">
+                <Select
+                    required
+                    legend="Categoria"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                >
+                    {
+                        CATEGORIES_KEY.map(category => (
+                            <option key={category} value={category}>
+                                {CATEGORIES[category].name}
+                            </option>
+                        ))
+                    }
+                </Select>
+
+                <Input
+                    required
+                    legend="Valor"
+                    placeholder="0,00"
+                />
+            </div>
+
+            <Input
+                required
+                legend="Comprovante"
+            />
 
 
         </form >
