@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router";
+
 import { CATEGORIES, CATEGORIES_KEY } from "../utils/categories";
 
 import { Input } from "../components/Input";
@@ -16,6 +18,8 @@ export function Refund() {
     const [isLoading, setIsLoading] = useState(false)
     const [filename, setFilename] = useState<File | null>(null)
 
+    const navigate = useNavigate()
+
     function onSubmit(e: React.FormEvent) {
         e.preventDefault()
 
@@ -24,6 +28,9 @@ export function Refund() {
         setCategory("")
         setAmount("")
         setFilename(null)
+
+        //Insiro um estado "state", na navegação que vem de um submit
+        navigate("/confirm", { state: { fromSubmit: true } })
 
 
     }
