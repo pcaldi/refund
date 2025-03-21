@@ -20,10 +20,10 @@ export function Dashboard() {
         <div className="bg-gray-500 rounded-xl p-10 w-full md:min-w-[762px]">
             <h1 className="font-bold text-xl text-gray-100 flex-1">Solicitações</h1>
 
-            <form className="flex flex-1 gap-2 mt-6 border-b-[1px]  border-gray-400 pb-6 md:flex-row">
+            <form onSubmit={fetchRefunds} className="flex flex-1 gap-2 mt-6 border-b-[1px]  border-gray-400 pb-6 md:flex-row">
                 <Input placeholder="Pesquisar pelo nome" onChange={(e) => setSearch(e.target.value)} value={search} />
-                <Button onClick={fetchRefunds}>
-                    <img src={searchSvg} alt="Ícone de uma lupa" className="p-4" />
+                <Button type="submit" variant="icon">
+                    <img src={searchSvg} alt="Ícone de uma lupa" />
                 </Button>
             </form>
 
