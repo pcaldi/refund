@@ -4,16 +4,17 @@ import searchSvg from "../assets/search.svg"
 
 
 import { CATEGORIES } from "../utils/categories";
+import { formatCurrency } from "../utils/formatCurrency";
 
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { RefundItem } from "../components/RefundItems";
 
 
-const REFUND_ITEMS_EXAMPLE = {
+const REFUND_EXAMPLE = {
     id: "123",
     name: "Paulo",
-    amount: "72,5",
+    amount: formatCurrency(54.5),
     category: "Transporte",
     categoryImg: CATEGORIES.TRANSPORT.icon,
 }
@@ -52,7 +53,7 @@ export function Dashboard() {
             </form>
 
             <div className="mt-6 flex flex-col gap-4 max-h-[345px] overflow-y-scroll">
-                <RefundItem data={REFUND_ITEMS_EXAMPLE} />
+                <RefundItem data={REFUND_EXAMPLE} />
             </div>
 
 
