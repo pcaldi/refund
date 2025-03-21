@@ -8,6 +8,7 @@ import { formatCurrency } from "../utils/formatCurrency";
 
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
+import { Pagination } from "../components/Pagination";
 import { RefundItem } from "../components/RefundItems";
 
 
@@ -56,7 +57,7 @@ export function Dashboard() {
                 <RefundItem data={REFUND_EXAMPLE} />
             </div>
 
-
+            <Pagination currentPage={1} totalPages={5} />
 
         </div>
     )
