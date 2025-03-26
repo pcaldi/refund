@@ -15,7 +15,7 @@ import { Button } from "../components/Button";
 export function Refund() {
 
     const [name, setName] = useState("Paulo")
-    const [amount, setAmount] = useState("34")
+    const [amount, setAmount] = useState("54.4")
     const [category, setCategory] = useState("TRANSPORT")
     const [isLoading, setIsLoading] = useState(false)
     const [filename, setFilename] = useState<File | null>(null)
