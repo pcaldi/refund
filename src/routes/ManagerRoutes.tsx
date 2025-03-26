@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router"
 import { AppLayout } from "../components/AppLayout"
 
 import { Dashboard } from "../pages/Dashboard"
+import { Refund } from "../pages/Refund"
 import { NotFound } from "../pages/NotFound"
 
 
@@ -11,6 +12,7 @@ export function ManagerRoutes() {
         <Routes>
             <Route path="/" element={<AppLayout />}>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/refund/:id" element={<Refund />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />
