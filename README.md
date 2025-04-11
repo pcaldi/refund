@@ -8,7 +8,7 @@
     <img src="./public/login.png" alt="Tela de login" width="32%">
     <img src="./public/cadastro.png" alt="Tela de cadastro" width="32%">
     <img src="./public/employee.png" alt="Dashboard usuário" width="32%">
-    <img src="./public/comfirm.png" alt="Tela de confirmação" width="32%">
+    <img src="./public/confirm.png" alt="Tela de confirmação" width="32%">
     <img src="./public/manager.png" alt="Painel administrador" width="32%">
     <img src="./public/manager_02.png" alt="Detalhes administrador" width="32%">
 </div>
