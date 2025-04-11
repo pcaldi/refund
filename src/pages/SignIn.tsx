@@ -28,14 +28,14 @@ export function SignIn() {
 
         } catch (error) {
             if (error instanceof ZodError) {
-                return alert(error.issues[0].message)
+                return { message: error.issues[0].message }
             }
 
             if (error instanceof AxiosError) {
-                return alert(error.response?.data.message)
+                return { message: error.response?.data.message }
             }
 
-            alert("Não foi possível entrar!")
+            return { message: "Não foi possível entrar!" }
         }
 
     }
@@ -59,6 +59,12 @@ export function SignIn() {
                 placeholder="123456"
 
             />
+
+            <p className="text-red-600 text-sm my-4 font-medium text-center">
+                {
+                    state?.message
+                }
+            </p>
 
             <Button type="submit" isLoading={isLoading}>
                 Entrar
