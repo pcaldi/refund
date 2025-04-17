@@ -50,7 +50,7 @@ export function SignIn() {
                 legend="E-mail"
                 type="email"
                 placeholder="seu@email.com"
-
+                autoComplete="username"
             />
 
             <Input
@@ -59,6 +59,7 @@ export function SignIn() {
                 legend="Senha"
                 type="password"
                 placeholder="123456"
+                autoComplete="current-password"
 
             />
 
