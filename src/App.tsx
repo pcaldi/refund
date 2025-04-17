@@ -1,6 +1,12 @@
 import { Routes } from "./routes";
 
+import { AuthProvider } from "./contexts/AuhContext";
+
 
 export function App() {
-    return <Routes />
+    return (
+        <AuthProvider >
+            <Routes />
+        </AuthProvider>
+    )
 }
