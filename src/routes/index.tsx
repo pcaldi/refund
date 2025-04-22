@@ -13,21 +13,16 @@ const isLoading = false;
 
 export function Routes() {
 
-    const context = useAuth()
-    console.log(context)
+    const { session } = useAuth()
+
 
     if (isLoading) {
         return <Loading />
     }
 
-    const session = {
-        user: {
-            role: "",
-        }
-    }
 
     function Route() {
-        switch (session.user.role) {
+        switch (session?.user.role) {
             case "manager":
                 return <ManagerRoutes />
             case "employee":
