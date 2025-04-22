@@ -4,7 +4,7 @@ import logoutSvg from "../assets/logout.svg"
 import { useAuth } from "../hooks/useAuth"
 
 export function Header() {
-    const { session } = useAuth()
+    const { session, remove } = useAuth()
 
 
     return (
@@ -13,7 +13,12 @@ export function Header() {
 
             <div className="flex items-center gap-3">
                 <span className="flex text-sm font-semibold text-gray-200 ">{`Olá, ${session?.user.name}`}</span>
-                <img src={logoutSvg} alt="logout" className="my-8 cursor-pointer hover:opacity-75 transition ease-linear" />
+                <img
+                    src={logoutSvg}
+                    alt="logout"
+                    onClick={() => remove()}
+                    className="my-8 cursor-pointer hover:opacity-75 transition ease-linear"
+                />
             </div>
         </header>
     )
