@@ -8,7 +8,7 @@ import servicesSvg from "../assets/services.svg"
 export const CATEGORIES = {
     FOOD: {
         icon: foodSvg,
-        name: "Comida",
+        name: "Alimentação",
     },
     OTHERS: {
         icon: othersSvg,
