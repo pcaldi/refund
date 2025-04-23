@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router";
 
 import { CATEGORIES, CATEGORIES_KEY } from "../utils/categories";
 
+import { z, ZodError } from "zod"
+
 import fileSvg from "../assets/file.svg"
 
 import { Input } from "../components/Input";
@@ -12,11 +14,17 @@ import { Upload } from "../components/Upload";
 import { Button } from "../components/Button";
 
 
+const refundSchema = z.object({
+    name: z.string().min(1, { message: "Informe o nome da solicitação" }),
+    category: z.string().min(1, { message: "Informe pelo menos uma categoria" }),
+    amount: z.coerce.number({ message: "Informe um valor válido" }).positive({ message: "O valor deve ser positivo" })
+})
+
 export function Refund() {
 
-    const [name, setName] = useState("Paulo")
-    const [amount, setAmount] = useState("54.4")
-    const [category, setCategory] = useState("TRANSPORT")
+    const [name, setName] = useState("")
+    const [amount, setAmount] = useState("")
+    const [category, setCategory] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [filename, setFilename] = useState<File | null>(null)
 
@@ -36,8 +44,33 @@ export function Refund() {
             navigate(-1)
         }
 
-        //Insiro um estado "state", na navegação que vem de um submit
-        navigate("/confirm", { state: { fromSubmit: true } })
+        try {
+            setIsLoading(true)
+            const data = refundSchema.parse({
+                name,
+                category,
+                amount: amount.replace(",", ".")//utilizo o replace para substituir a "," pelo "."
+            })
+
+            console.log(data)
+
+
+            //Insiro um estado "state", na navegação que vem de um submit
+            //navigate("/confirm", { state: { fromSubmit: true } })
+        } catch (error) {
+            console.log(error)
+
+            if (error instanceof ZodError) {
+                return alert(error.issues[0].message)
+            }
+
+            alert("Não foi possível realizar a solicitação.")
+
+        } finally {
+            setIsLoading(false)
+        }
+
+
 
 
     }

@@ -38,28 +38,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setIsLoading(false)
     }
 
-<<<<<<< HEAD
     function remove() {
         localStorage.removeItem(`${LOCAL_STORAGE_KEY}:user`)
         localStorage.removeItem(`${LOCAL_STORAGE_KEY}:token`)
 
 
         setSession(null)
+
+        //Navegar o user para o raiz
+        window.location.assign("/")
     }
 
-=======
->>>>>>> a92fcc3699387cfef2d51897c19fc39712cf3262
     useEffect(() => {
         loadUser()
     }, [])
 
 
     return (
-<<<<<<< HEAD
         <AuthContext.Provider value={{ session, save, isLoading, remove }}>
-=======
-        <AuthContext.Provider value={{ session, save, isLoading }}>
->>>>>>> a92fcc3699387cfef2d51897c19fc39712cf3262
             {children}
         </AuthContext.Provider>
     )
