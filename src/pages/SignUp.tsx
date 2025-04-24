@@ -76,6 +76,7 @@ export function SignUp() {
                 legend="Nome"
                 placeholder="Seu nome"
                 onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
             />
 
             <Input
@@ -84,6 +85,7 @@ export function SignUp() {
                 type="email"
                 placeholder="seu@email.com"
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
             />
 
             <Input
@@ -92,6 +94,7 @@ export function SignUp() {
                 type="password"
                 placeholder="123456"
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
             />
 
             <Input
@@ -100,6 +103,7 @@ export function SignUp() {
                 type="password"
                 placeholder="Confirme sua senha"
                 onChange={(e) => setPasswordConfirm(e.target.value)}
+                autoComplete="new-password"
             />
 
             <Button type="submit" isLoading={isLoading}>
