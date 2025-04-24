@@ -4,9 +4,13 @@ import { useNavigate, useParams } from "react-router";
 
 import { CATEGORIES, CATEGORIES_KEY } from "../utils/categories";
 
-import { z, ZodError } from "zod"
+import { z, ZodError } from "zod";
 
-import fileSvg from "../assets/file.svg"
+import { AxiosError } from "axios";
+
+import { api } from "../services/api";
+
+import fileSvg from "../assets/file.svg";
 
 import { Input } from "../components/Input";
 import { Select } from "../components/Select";
@@ -31,14 +35,8 @@ export function Refund() {
     const navigate = useNavigate()
     const params = useParams<{ id: string }>()
 
-    function onSubmit(e: React.FormEvent) {
+    async function onSubmit(e: React.FormEvent) {
         e.preventDefault()
-
-        console.log(name, category, amount, filename)
-        setName("")
-        setCategory("")
-        setAmount("")
-        setFilename(null)
 
         if (params.id) {
             navigate(-1)
@@ -46,17 +44,17 @@ export function Refund() {
 
         try {
             setIsLoading(true)
+
             const data = refundSchema.parse({
                 name,
-                category,
+                category: category.toLocaleLowerCase(),
                 amount: amount.replace(",", ".")//utilizo o replace para substituir a "," pelo "."
             })
 
-            console.log(data)
-
+            await api.post("/refunds", { ...data, filename: "comprovante.png" })
 
             //Insiro um estado "state", na navegação que vem de um submit
-            //navigate("/confirm", { state: { fromSubmit: true } })
+            navigate("/confirm", { state: { fromSubmit: true } })
         } catch (error) {
             console.log(error)
 
@@ -64,15 +62,15 @@ export function Refund() {
                 return alert(error.issues[0].message)
             }
 
+            if (error instanceof AxiosError) {
+                return alert(error.response?.data.message)
+            }
+
             alert("Não foi possível realizar a solicitação.")
 
         } finally {
             setIsLoading(false)
         }
-
-
-
-
     }
 
 
