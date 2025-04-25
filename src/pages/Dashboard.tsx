@@ -13,31 +13,33 @@ import { Input } from "../components/Input";
 import { Pagination } from "../components/Pagination";
 import { RefundItem, RefundItemProps } from "../components/RefundItems";
 
-
-const REFUND_EXAMPLE = {
-    id: "123",
-    name: "Paulo",
-    amount: formatCurrency(54.5),
-    category: "Transporte",
-    categoryImg: CATEGORIES.transport.icon,
-}
-
+// Quantos registros por página exibir
 const PER_PAGE = 5
 
 export function Dashboard() {
     const [name, setName] = useState("")
-    const [search, setSearch] = useState("")
     const [page, setPage] = useState(1)
-    const [totalOfPages, setTotalOfPages] = useState(5)
-    const [refunds, setRefunds] = useState<RefundItemProps[]>([REFUND_EXAMPLE])
+    const [totalOfPages, setTotalOfPages] = useState(0)
+    const [refunds, setRefunds] = useState<RefundItemProps[]>([])
 
 
     async function fetchRefunds() {
         try {
-            const response = await api.get<RefundsPaginationAPIResponse>(`/refunds?name=${name.trim()}&page=${page}&perPage=${PER_PAGE}`)
+            const response = await api.get<RefundsPaginationAPIResponse>(
+                `/refunds?name=${name.trim()}&page=${page}&perPage=${PER_PAGE}`)
 
-            console.log(response.data)
+            setRefunds(
+                response.data.refunds.map((refund) => ({
+                    id: refund.id,
+                    name: refund.user.name,
+                    description: refund.name,
+                    amount: formatCurrency(refund.amount),
+                    categoryImg: CATEGORIES[refund.category].icon
 
+                }))
+            )
+
+            setTotalOfPages(response.data.pagination.totalPages)
 
         } catch (error) {
             console.log(error)
@@ -71,12 +73,14 @@ export function Dashboard() {
         <div className="bg-gray-500 rounded-xl p-10 w-full md:min-w-[762px]">
             <h1 className="font-bold text-xl text-gray-100 flex-1">Solicitações</h1>
 
-            <form onSubmit={fetchRefunds} className="flex flex-1 gap-2 mt-6 border-b-[1px]  border-gray-400 pb-6 md:flex-row">
+            <form
+                onSubmit={fetchRefunds}
+                className="flex flex-1 gap-2 mt-6 border-b-[1px]  border-gray-400 pb-6 md:flex-row"
+            >
 
                 <Input
                     placeholder="Pesquisar pelo nome"
-                    onChange={(e) => setSearch(e.target.value)}
-                    value={search}
+                    onChange={(e) => setName(e.target.value)}
                 />
 
                 <Button type="submit" variant="icon">
@@ -92,7 +96,7 @@ export function Dashboard() {
             <div className="my-6 flex flex-col gap-4 max-h-[345px] overflow-y-scroll">
                 {
                     refunds.map((item) => (
-                        <RefundItem key={item.id} data={REFUND_EXAMPLE} href={`/refund/${item.id}`} />
+                        <RefundItem key={item.id} data={item} href={`/refund/${item.id}`} />
 
                     ))
                 }
