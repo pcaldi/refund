@@ -42,7 +42,7 @@ export function Refund() {
         e.preventDefault()
 
         if (params.id) {
-            navigate(-1)
+            return navigate(-1)
         }
 
         try {
@@ -50,7 +50,7 @@ export function Refund() {
 
 
             if (!file) {
-                return alert("Adicione o comprovante!")
+                return alert("Selecione um arquivo de comprovante")
             }
 
             const fileUploadForm = new FormData()
