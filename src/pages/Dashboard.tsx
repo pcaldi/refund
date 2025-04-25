@@ -14,7 +14,7 @@ import { Pagination } from "../components/Pagination";
 import { RefundItem, RefundItemProps } from "../components/RefundItems";
 
 // Quantos registros por página exibir
-const PER_PAGE = 5
+const PER_PAGE = 3
 
 export function Dashboard() {
     const [name, setName] = useState("")
@@ -51,6 +51,12 @@ export function Dashboard() {
 
     }
 
+    function onSubmit(e: React.FormEvent) {
+        e.preventDefault()
+
+        fetchRefunds()
+    }
+
     function handlePageChange(action: "previous" | "next") {
         setPage((prevPage) => {
             if (action === "next" && prevPage < totalOfPages) {
@@ -74,7 +80,7 @@ export function Dashboard() {
             <h1 className="font-bold text-xl text-gray-100 flex-1">Solicitações</h1>
 
             <form
-                onSubmit={fetchRefunds}
+                onSubmit={onSubmit}
                 className="flex flex-1 gap-2 mt-6 border-b-[1px]  border-gray-400 pb-6 md:flex-row"
             >
 
