@@ -14,7 +14,7 @@ import { Pagination } from "../components/Pagination";
 import { RefundItem, RefundItemProps } from "../components/RefundItems";
 
 // Quantos registros por página exibir
-const PER_PAGE = 3
+const PER_PAGE = 5
 
 export function Dashboard() {
     const [name, setName] = useState("")
@@ -73,7 +73,7 @@ export function Dashboard() {
 
     useEffect(() => {
         fetchRefunds()
-    }, [])
+    }, [page])
 
     return (
         <div className="bg-gray-500 rounded-xl p-10 w-full md:min-w-[762px]">
