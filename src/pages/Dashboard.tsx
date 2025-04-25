@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import searchSvg from "../assets/search.svg"
 
+import { api } from "../services/api";
+import { AxiosError } from "axios";
 
 import { CATEGORIES } from "../utils/categories";
 import { formatCurrency } from "../utils/formatCurrency";
@@ -20,17 +22,30 @@ const REFUND_EXAMPLE = {
     categoryImg: CATEGORIES.transport.icon,
 }
 
+const PER_PAGE = 5
+
 export function Dashboard() {
+    const [name, setName] = useState("")
     const [search, setSearch] = useState("")
     const [page, setPage] = useState(1)
     const [totalOfPages, setTotalOfPages] = useState(5)
     const [refunds, setRefunds] = useState<RefundItemProps[]>([REFUND_EXAMPLE])
 
 
-    function fetchRefunds(e: React.FormEvent) {
-        e.preventDefault()
+    async function fetchRefunds() {
+        try {
+            const response = await api.get(`/refunds?name=${name.trim()}&page=${page}&perPage=${PER_PAGE}`)
 
-        console.log(search)
+            console.log(response.data)
+
+
+        } catch (error) {
+            console.log(error)
+
+            if (error instanceof AxiosError) {
+                alert(error.response?.data.massage)
+            }
+        }
 
     }
 
@@ -47,6 +62,10 @@ export function Dashboard() {
             return prevPage
         })
     }
+
+    useEffect(() => {
+        fetchRefunds()
+    }, [])
 
     return (
         <div className="bg-gray-500 rounded-xl p-10 w-full md:min-w-[762px]">
