@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useNavigate, useParams } from "react-router";
 
@@ -17,6 +17,8 @@ import { Select } from "../components/Select";
 import { Upload } from "../components/Upload";
 import { Button } from "../components/Button";
 
+import { formatCurrency } from "../utils/formatCurrency";
+
 
 const refundSchema = z.object({
     name: z.string().min(1, { message: "Informe o nome da solicitação" }),
@@ -31,6 +33,7 @@ export function Refund() {
     const [category, setCategory] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const [file, setFile] = useState<File | null>(null)
+    const [fileURL, setFileURL] = useState<string | null>(null)
 
     const navigate = useNavigate()
     const params = useParams<{ id: string }>()
@@ -88,6 +91,35 @@ export function Refund() {
         }
     }
 
+    async function fetchRefunds(id: string) {
+        try {
+
+            const response = await api.get<RefundsAPIResponse>(`/refunds/${id}`)
+
+            setName(response.data.name)
+            setCategory(response.data.category)
+            setAmount(formatCurrency(response.data.amount))
+            setFileURL(response.data.filename)
+
+
+
+        } catch (error) {
+            console.log(error)
+
+            if (error instanceof AxiosError) {
+                return alert(error.response?.data.message)
+            }
+
+            alert("Não foi possível carregar os dados")
+        }
+    }
+
+    useEffect(() => {
+        if (params.id) {
+            fetchRefunds(params.id)
+        }
+    }, [params.id])
+
 
     return (
         <form onSubmit={onSubmit} className="bg-gray-500 w-full rounded-xl flex flex-col p-10 gap-6 lg:min-w[512px]">
@@ -132,8 +164,12 @@ export function Refund() {
             </div>
 
             {
-                params.id ?
-                    (<a href="https://www.google.com/" target="_blank" className="flex flex-1 gap-2 text-sm text-green-100 font-semibold items-center justify-center my-6 hover:opacity-75">
+                params.id && fileURL ?
+                    (<a
+                        href={`http://localhost:3333/uploads/${fileURL}`}
+                        target="_blank"
+                        className="flex flex-1 gap-2 text-sm text-green-100 font-semibold items-center justify-center my-6 hover:opacity-75"
+                    >
                         <img
                             src={fileSvg}
                             alt="Ícone de um arquivo"
