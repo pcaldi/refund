@@ -13,8 +13,11 @@ type RefundsAPIResponse = {
 
 type RefundsPaginationAPIResponse = {
     refunds: RefundsAPIResponse[]
-    page: number
-    perPage: number
-    totalPages: number
-    totalRecords: number
+    pagination: {
+        page: number
+        perPage: number
+        totalPages: number
+        totalRecords: number
+    }
 }
+
