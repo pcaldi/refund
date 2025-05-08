@@ -27,8 +27,8 @@ export function useAlert() {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#10B981", // green-500
-      cancelButtonColor: "#EF4444", // red-500
+      confirmButtonColor: "#2cb178",
+      cancelButtonColor: "#EF4444",
       background: "#f9fbfa",
       color: "#1f2523",
     });
