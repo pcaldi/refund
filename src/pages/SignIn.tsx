@@ -1,6 +1,7 @@
 import { useActionState } from "react";
 import { z, ZodError } from "zod";
 import { AxiosError } from "axios";
+import { toast } from "react-hot-toast";
 
 import { api } from "../services/api";
 
@@ -33,15 +34,21 @@ export function SignIn() {
 
 
         } catch (error) {
+
+
             if (error instanceof ZodError) {
-                return { message: error.issues[0].message }
+                //return { message: error.issues[0].message }
+                return toast.error(error.issues[0].message)
             }
 
             if (error instanceof AxiosError) {
-                return { message: error.response?.data.message }
+                //return { message: error.response?.data.message }
+                return toast.error(error.response?.data.message)
             }
 
-            return { message: "Não foi possível entrar!" }
+            //return { message: "Não foi possível entrar!" }
+            return toast.error("Não foi possível entrar!")
+
         }
 
     }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useNavigate, useParams } from "react-router";
+import { toast } from "react-hot-toast";
 
 import { CATEGORIES, CATEGORIES_KEY } from "../utils/categories";
 
@@ -50,7 +51,8 @@ export function Refund() {
 
 
             if (!file) {
-                return alert("Selecione um arquivo de comprovante")
+                //return alert("Selecione um arquivo de comprovante")
+                return toast.error("Selecione um arquivo de comprovante!")
             }
 
             const fileUploadForm = new FormData()
@@ -77,14 +79,17 @@ export function Refund() {
             console.log(error)
 
             if (error instanceof ZodError) {
-                return alert(error.issues[0].message)
+                // return alert(error.issues[0].message)
+                return toast.error(error.issues[0].message)
             }
 
             if (error instanceof AxiosError) {
-                return alert(error.response?.data.message)
+                //return alert(error.response?.data.message)
+                return toast.error(error.response?.data.message)
             }
 
-            alert("Não foi possível realizar a solicitação.")
+            // alert("Não foi possível realizar a solicitação.")
+            toast.error("Não foi possível realizar a solicitação.")
 
         } finally {
             setIsLoading(false)
@@ -107,10 +112,12 @@ export function Refund() {
             console.log(error)
 
             if (error instanceof AxiosError) {
-                return alert(error.response?.data.message)
+                //return alert(error.response?.data.message)
+                return toast.error(error.response?.data.message)
             }
 
-            alert("Não foi possível carregar os dados")
+            //alert("Não foi possível carregar os dados")
+            toast.error("Não foi possível carregar os dados")
         }
     }
 

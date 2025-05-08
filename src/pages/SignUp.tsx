@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { z, ZodError } from "zod"
 import { AxiosError } from "axios";
+import { toast } from "react-hot-toast";
 
 import { useNavigate } from "react-router"
 
@@ -18,7 +19,7 @@ const signUpSchema = z.object({
     passwordConfirm: z.string({ message: "Confirme a senha." })
 })// Propriedade para recuperar os dados da validação
     .refine((data) => data.password === data.passwordConfirm, {
-        message: "As senhas senhas não são iguais.",
+        message: "As senhas não são iguais.",
         path: ["passwordConfirm"] //campo utilizado como referencia
     })
 
@@ -47,21 +48,26 @@ export function SignUp() {
 
             await api.post("/users", data)
 
-            if (confirm("Cadastrado com sucesso!, deseja ir para a tela de login?")) {
-                navigate("/")
-            }
+            /*  if (confirm("Cadastrado com sucesso!, deseja ir para a tela de login?")) {
+                 navigate("/")
+             } */
+            toast.success("Cadastrado com sucesso!")
+            navigate("/")
 
 
         } catch (error) {
             if (error instanceof ZodError) {
-                return alert(error.issues[0].message)
+                //return alert(error.issues[0].message)
+                return toast.error(error.issues[0].message)
             }
 
             if (error instanceof AxiosError) {
-                return alert(error.response?.data.message)
+                //return alert(error.response?.data.message)
+                return toast.error(error.response?.data.message)
             }
 
-            alert("Não foi possível cadastrar.")
+            //alert("Não foi possível cadastrar.")
+            toast.error("Não foi possível cadastrar.")
         } finally {
             setIsLoading(false)
         }

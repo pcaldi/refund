@@ -4,6 +4,7 @@ import searchSvg from "../assets/search.svg"
 
 import { api } from "../services/api";
 import { AxiosError } from "axios";
+import { toast } from "react-hot-toast";
 
 import { CATEGORIES } from "../utils/categories";
 import { formatCurrency } from "../utils/formatCurrency";
@@ -45,7 +46,8 @@ export function Dashboard() {
             console.log(error)
 
             if (error instanceof AxiosError) {
-                alert(error.response?.data.massage)
+                //alert(error.response?.data.massage)
+                toast.error(error.response?.data.massage)
             }
         }
 
