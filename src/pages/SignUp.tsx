@@ -4,6 +4,8 @@ import { AxiosError } from "axios";
 
 import { useNavigate } from "react-router"
 
+import { useAlert } from "../hooks/useAlert";
+
 import { api } from "../services/api";
 
 import { Button } from "../components/Button";
@@ -31,6 +33,7 @@ export function SignUp() {
     const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate()
+    const { showAlert, showConfirm } = useAlert()
 
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -47,21 +50,38 @@ export function SignUp() {
 
             await api.post("/users", data)
 
-            if (confirm("Cadastrado com sucesso!, deseja ir para a tela de login?")) {
+            const result = await showConfirm({
+                title: "Cadastrado com sucesso!",
+                text: "Deseja ir para tela de login?",
+                icon: "success"
+            })
+
+            if (result.isConfirmed) {
                 navigate("/")
             }
 
-
         } catch (error) {
             if (error instanceof ZodError) {
-                return alert(error.issues[0].message)
+                return showAlert({
+                    title: "Erro de validação",
+                    text: error.issues[0].message,
+                    icon: "warning"
+                })
             }
 
             if (error instanceof AxiosError) {
-                return alert(error.response?.data.message)
+                return showAlert({
+                    title: "Erro",
+                    text: error.response?.data.message,
+                    icon: "error"
+                })
             }
 
-            alert("Não foi possível cadastrar.")
+            showAlert({
+                title: "Erro inesperado",
+                text: "Não foi possível cadastrar.",
+                icon: "error"
+            })
         } finally {
             setIsLoading(false)
         }

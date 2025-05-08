@@ -18,6 +18,7 @@ import { Upload } from "../components/Upload";
 import { Button } from "../components/Button";
 
 import { formatCurrency } from "../utils/formatCurrency";
+import { useAlert } from "../hooks/useAlert";
 
 
 const refundSchema = z.object({
@@ -38,6 +39,8 @@ export function Refund() {
     const navigate = useNavigate()
     const params = useParams<{ id: string }>()
 
+    const { showAlert } = useAlert()
+
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault()
 
@@ -50,7 +53,11 @@ export function Refund() {
 
 
             if (!file) {
-                return alert("Selecione um arquivo de comprovante")
+                return showAlert({
+                    title: "Arquivo obrigatório",
+                    text: "Selecione um arquivo de comprovante",
+                    icon: "warning"
+                })
             }
 
             const fileUploadForm = new FormData()
@@ -77,14 +84,29 @@ export function Refund() {
             console.log(error)
 
             if (error instanceof ZodError) {
-                return alert(error.issues[0].message)
+                //alert(error.issues[0].message)
+                return showAlert({
+                    title: "Erro",
+                    text: error.issues[0].message,
+                    icon: "error"
+                })
             }
 
             if (error instanceof AxiosError) {
-                return alert(error.response?.data.message)
+                //return alert(error.response?.data.message)
+                return showAlert({
+                    title: "Error",
+                    text: error.response?.data.message,
+                    icon: "error"
+                })
             }
 
-            alert("Não foi possível realizar a solicitação.")
+            //alert("Não foi possível realizar a solicitação.")
+            showAlert({
+                title: "Erro",
+                text: "Não foi possível realizar a solicitação.",
+                icon: "info"
+            })
 
         } finally {
             setIsLoading(false)
@@ -107,10 +129,20 @@ export function Refund() {
             console.log(error)
 
             if (error instanceof AxiosError) {
-                return alert(error.response?.data.message)
+                //return alert(error.response?.data.message)
+                return showAlert({
+                    title: "Erro",
+                    text: error.response?.data.message,
+                    icon: "error"
+                })
             }
 
-            alert("Não foi possível carregar os dados")
+            //alert("Não foi possível carregar os dados")
+            showAlert({
+                title: "Erro",
+                text: "Não foi possível realizar a solicitação.",
+                icon: "info"
+            })
         }
     }
 

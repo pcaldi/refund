@@ -8,6 +8,8 @@ import { AxiosError } from "axios";
 import { CATEGORIES } from "../utils/categories";
 import { formatCurrency } from "../utils/formatCurrency";
 
+import { useAlert } from "../hooks/useAlert";
+
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Pagination } from "../components/Pagination";
@@ -22,6 +24,7 @@ export function Dashboard() {
     const [totalOfPages, setTotalOfPages] = useState(0)
     const [refunds, setRefunds] = useState<RefundItemProps[]>([])
 
+    const { showAlert } = useAlert()
 
     async function fetchRefunds() {
         try {
@@ -45,7 +48,12 @@ export function Dashboard() {
             console.log(error)
 
             if (error instanceof AxiosError) {
-                alert(error.response?.data.massage)
+                //return alert(error.response?.data.message)
+                return showAlert({
+                    title: "Error",
+                    text: error.response?.data.message,
+                    icon: "error"
+                })
             }
         }
 

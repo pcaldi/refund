@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import { api } from "../services/api";
 
 import { useAuth } from "../hooks/useAuth";
+import { useAlert } from "../hooks/useAlert"
 
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
@@ -19,6 +20,7 @@ export function SignIn() {
     const [state, formAction, isLoading] = useActionState(signIn, null)
 
     const { save } = useAuth()
+    const { showAlert } = useAlert()
 
     async function signIn(prevState: any, formData: FormData) {
         try {
@@ -33,15 +35,30 @@ export function SignIn() {
 
 
         } catch (error) {
+
             if (error instanceof ZodError) {
-                return { message: error.issues[0].message }
+                //alert(error.issues[0].message)
+                return showAlert({
+                    title: "Erro",
+                    text: error.issues[0].message,
+                    icon: "error"
+                })
             }
 
             if (error instanceof AxiosError) {
-                return { message: error.response?.data.message }
+                //return alert(error.response?.data.message)
+                return showAlert({
+                    title: "Erro",
+                    text: error.response?.data.message,
+                    icon: "error"
+                })
             }
 
-            return { message: "Não foi possível entrar!" }
+            showAlert({
+                title: "Erro ao conectar",
+                text: "Não foi possível realizar o login.",
+                icon: "info"
+            })
         }
 
     }
